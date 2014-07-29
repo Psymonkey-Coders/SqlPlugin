@@ -23,21 +23,21 @@ namespace SqlPlugin
 		// variable definitions
 		// access static (string,bool, ect ect) m_variableName;
 
-		private static string m_firstRun;
+		//private static string m_firstRun;
 
 		private static string m_databaseName;
 		private static string m_databaseHost;
-		private static string m_DatabasePort;
+		private static string m_databasePort;
 		private static string m_databaseUser;
 		private static string m_databasePass;
-		private static int m_sqltickRate;
+		//private static int m_sqltickRate;
 		public static int m_databaseTickRate;
 
-		private static bool m_databaseEnabled;
+		//private static bool m_databaseEnabled;
 		private static bool m_databaseLocked;
 		private static bool m_isDebugging; //SandboxGameAssemblyWrapper.IsDebugging
 
-		private static bool m_databaseSettingsChanged;
+		//private static bool m_databaseSettingsChanged;
 		
 		private MySqlConnection connection;
 		
@@ -57,7 +57,7 @@ namespace SqlPlugin
 
 			string connectionString;
 			connectionString = "SERVER=" + m_databaseHost + ";" + "DATABASE=" +
-			m_databaseName + ";" + "PORT=" + m_DatabasePort + ";" + "UID=" + m_databaseUser + ";" + "PASSWORD=" + m_databasePass + ";";
+			m_databaseName + ";" + "PORT=" + m_databasePort + ";" + "UID=" + m_databaseUser + ";" + "PASSWORD=" + m_databasePass + ";";
 
 			connection = new MySqlConnection(connectionString);
 			Console.WriteLine("SQL Plugin '" + Id.ToString() + "' initialized!");
@@ -85,7 +85,21 @@ namespace SqlPlugin
 				m_databaseHost = value; // if the value changes in the code, it updates the plugins properties panel
 			}
 		}
-
+		[Category("SQL Database")]
+		[Description("The Port used to connect to SQL host ")]
+		[Browsable(true)]
+		[ReadOnly(false)]
+		public string DatabasePort
+		{
+			get
+			{
+				return m_databasePort; // Send m_databaseNames value to the plugins properties panel
+			}
+			set
+			{
+				m_databasePort = value; // if the value changes in the code, it updates the plugins properties panel
+			}
+		}
 		[Category("SQL Database")]
 		[Description("The user used to connect to SQL host ")]
 		[Browsable(true)]
