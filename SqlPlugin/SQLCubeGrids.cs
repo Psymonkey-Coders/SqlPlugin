@@ -26,14 +26,34 @@ namespace SqlPlugin
 	/// <summary>
 	/// Provides methods for handling SQL - Server data sync
 	/// </summary>
-	public class QueryCubeGrids
+	public class SQLCubeGrids
 	{
-		public QueryCubeGrids()
-		{
-		}
+		public int EntID;
+		public string Beacon;
+		public int Owner;
+		public int Size;
+		public int FuelTime;
+		public int Power;
+		public int LocX;
+		public int LocY;
+		public int LocZ;
+		public int Edited;
+
 		
 	#region "Methods"
-	
+			public SQLCubeGrids(int ID, string beacon, int owner, int size, int fuelTime, int power, int locX, int locY, int locZ, int edited)
+		{
+			this.EntID = ID;
+			this.Beacon = beacon;
+			this.Owner = owner;
+			this.Size = size;
+			this.FuelTime = fuelTime;
+			this.Power = power;
+			this.LocX = locX;
+			this.LocY = locY;
+			this.LocZ = locZ;
+			this.Edited = edited;
+		}
 	#endregion
 	}
 }
