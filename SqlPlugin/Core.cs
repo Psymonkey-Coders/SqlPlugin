@@ -36,6 +36,7 @@ namespace SqlPlugin
 
 			private DatabaseSetup databaseSetup = new DatabaseSetup();
 			public DatabaseSetup DatabaseSetup { get { return databaseSetup; } set { databaseSetup = value; } }
+<<<<<<< HEAD
 
 			public bool ConnectOnStartup { get; set; }
 			public bool ReconnectOnBroken { get; set; }
@@ -43,6 +44,15 @@ namespace SqlPlugin
 			public bool DatabaseLocked { get; set; }
 			public bool IsDebugging { get; set; }
 
+=======
+
+			public bool ConnectOnStartup { get; set; }
+			public bool ReconnectOnBroken { get; set; }
+			public bool DatabaseEnabled { get; set; }
+			public bool DatabaseLocked { get; set; }
+			public bool IsDebugging { get; set; }
+
+>>>>>>> origin/master
 			public int ReconnectAttemptLimit { get; set; }
 			public int SqlTickRate { get; set; }
 			public int DatabaseTickRate { get; set; }
@@ -57,10 +67,17 @@ namespace SqlPlugin
 		//private static string m_firstRun;
 
 		private static byte[] entropy = Encoding.Unicode.GetBytes("SQL Is The Way To Go Bro");
+<<<<<<< HEAD
 
 		private static bool m_databaseSettingsChanged;
 		private static bool m_connectedToDatabase;
 
+=======
+
+		private static bool m_databaseSettingsChanged;
+		private static bool m_connectedToDatabase;
+
+>>>>>>> origin/master
 		private static int m_reconnectAttemptCount;
 
 		private static string m_dataFile;
@@ -86,7 +103,11 @@ namespace SqlPlugin
 
 			Config = new SQLPluginConfig();
 			Serializer = new XmlSerializer(typeof(SQLPluginConfig));
+<<<<<<< HEAD
 			connection = new MySqlConnection();
+=======
+			connection = new MySqlConnection(); 
+>>>>>>> origin/master
 			try
 			{
 				if (!File.Exists(m_dataFile))
@@ -131,7 +152,11 @@ namespace SqlPlugin
 		public override void Init()
 		{
 			connection.ConnectionString = String.Format("SERVER={0};DATABASE={1};PORT={2};UID={3};PASSWORD={4};",
+<<<<<<< HEAD
 			                                            this.DatabaseHost, this.DatabaseName, this.DatabasePort, this.DatabaseUser, this.DatabasePass);
+=======
+				this.DatabaseHost, this.DatabaseName, this.DatabasePort, this.DatabaseUser, this.DatabasePass);
+>>>>>>> origin/master
 
 			connection.StateChange += connection_StateChange;
 
@@ -140,7 +165,11 @@ namespace SqlPlugin
 			Console.WriteLine("SQL Plugin - Ready to connect to database");
 
 			if(ConnectOnStartup)
+<<<<<<< HEAD
 				this.ConnectToDatabase();
+=======
+				this.ConnectToDatabase();	
+>>>>>>> origin/master
 		}
 
 		#endregion
@@ -195,7 +224,11 @@ namespace SqlPlugin
 		public string DatabasePass
 		{
 			get { return ToInsecureString(DecryptString(Config.DatabaseSetup.DatabasePass)); }
+<<<<<<< HEAD
 			set { Config.DatabaseSetup.DatabasePass = EncryptString(ToSecureString(value)); Changed = true; }
+=======
+			set { Config.DatabaseSetup.DatabasePass = EncryptString(ToSecureString(value)); Changed = true; }		
+>>>>>>> origin/master
 		}
 
 		[Category("Connection Setup")]
@@ -206,7 +239,11 @@ namespace SqlPlugin
 		public string DatabaseName
 		{
 			get { return Config.DatabaseSetup.DatabaseName; }
+<<<<<<< HEAD
 			set { Config.DatabaseSetup.DatabaseName = value; Changed = true; }
+=======
+			set { Config.DatabaseSetup.DatabaseName = value; Changed = true; }	
+>>>>>>> origin/master
 		}
 
 		[Category("Connection Setup")]
@@ -240,6 +277,7 @@ namespace SqlPlugin
 		{
 			get { return Config.ReconnectOnBroken; }
 			set { Config.ReconnectOnBroken = value; Changed = true; }
+<<<<<<< HEAD
 		}
 
 		[Category("Database Options")]
@@ -254,6 +292,22 @@ namespace SqlPlugin
 		}
 
 		[Category("Database Options")]
+=======
+		}
+
+		[Category("Database Options")]
+		[Description("How many times can the connection attempt to reconnect if its broken or not connected.")]
+		[Browsable(true)]
+		[ReadOnly(false)]
+		[DisplayName("Connection Attempt Limit")]
+		public int ReconnectAttemptLimit
+		{
+			get { return Config.ReconnectAttemptLimit; }
+			set { Config.ReconnectAttemptLimit = value; Changed = true; }
+		}
+
+		[Category("Database Options")]
+>>>>>>> origin/master
 		[Description("Settings Locked? Checking the connection works is recommended before setting this to true.")]
 		[Browsable(true)]
 		[ReadOnly(false)]
@@ -294,8 +348,13 @@ namespace SqlPlugin
 		{
 			switch (e.CurrentState)
 			{
+<<<<<<< HEAD
 					// if the connection breaks, make sure its closed, reconnect if the user wants
 					// limited by the attempt amount
+=======
+				// if the connection breaks, make sure its closed, reconnect if the user wants
+				// limited by the attempt amount
+>>>>>>> origin/master
 				case ConnectionState.Broken:
 
 					LogManager.GameLog.WriteLineAndConsole("SQL Plugin - Connection to database failed!");
@@ -309,7 +368,11 @@ namespace SqlPlugin
 						m_reconnectAttemptCount += 1;
 					}
 					break;
+<<<<<<< HEAD
 					
+=======
+				
+>>>>>>> origin/master
 				case ConnectionState.Connecting:
 					LogManager.GameLog.WriteLineAndConsole("SQL Plugin - Attempting to connect to database..");
 					break;
@@ -349,10 +412,21 @@ namespace SqlPlugin
 			}
 			
 
+			if (Changed)
+			{
+				this.SaveXMLConfig();
+				Changed = false;
+			}
+				
+
 		}
 		public override void Shutdown()
 		{
+<<<<<<< HEAD
 			this.DisconnectFromDatabase();
+=======
+            this.DisconnectFromDatabase();
+>>>>>>> origin/master
 		}
 
 		#endregion
@@ -373,6 +447,7 @@ namespace SqlPlugin
 			{
 				LogManager.GameLog.WriteLine("SQL Plugin - Exception: " + ex.ToString() + "\n<<<<<END SQL EXCEPTION>>>>>\n\n");
 				switch (ex.Number)
+<<<<<<< HEAD
 				{
 					case 0:
 						LogManager.GameLog.WriteLineAndConsole("SQL Plugin - Cannot connect to server.  Contact administrator");
@@ -383,6 +458,18 @@ namespace SqlPlugin
 						break;
 				}
 				return false;
+=======
+				 {
+					 case 0:
+						 LogManager.GameLog.WriteLineAndConsole("SQL Plugin - Cannot connect to server.  Contact administrator");
+						 break;
+
+					 case 1045:
+						LogManager.GameLog.WriteLineAndConsole("SQL Plugin - Invalid username/password, please try again");
+						break;
+				  }
+			 return false;
+>>>>>>> origin/master
 			}
 		}
 
@@ -403,6 +490,7 @@ namespace SqlPlugin
 				return false;
 			}
 		}
+<<<<<<< HEAD
 		public bool NonQuery(string queryType, string table, string sqlParams) // NonQueries only for Insert, Update, and delete queries
 		{
 			string query;
@@ -506,6 +594,67 @@ namespace SqlPlugin
 			return counter;
 		}
 
+=======
+		public bool NonQuery(string table, string queryType, string fields, string values, string sqlparams) // NonQueries only for Insert, Update, and delete queries
+		{
+			MySqlCommand cmd = new MySqlCommand();
+			cmd.Connection = connection;
+
+			if (queryType == "INSERT")
+			{
+				cmd.CommandText = "INSERT INTO @table VALUES ";
+			}
+			else
+			{
+				if(queryType == "DELETE")
+				{
+					cmd.CommandText = "DELETE FROM @table WHERE ";
+				}
+				else
+				{
+					if(queryType == "UPDATE")
+					{
+						cmd.CommandText = "UPDATE @table SET ";
+					}
+					else
+					{
+						LogManager.GameLog.WriteLineAndConsole("SQL Plugin - Invalid Query Type");
+					}
+				}
+			}		
+			cmd.Prepare();
+			cmd.Parameters.AddWithValue("@table",table);
+			cmd.ExecuteNonQuery();
+			return true;
+		}
+
+		public void SelectQuery()
+		{
+			string query = "SELECT * FROM CubeGrids, Players, Instances, Plugins";
+			MySqlCommand cmd = new MySqlCommand(query, connection);
+			//Create a data reader and Execute the command
+			MySqlDataReader reader = cmd.ExecuteReader();
+			while (reader.Read())
+			{
+			  SQLCubeGrids f = new SQLCubeGrids((int)reader[0], (string)reader[1], (int)reader[2], (int)reader[3], (int)reader[4], (int)reader[5], (int)reader[6], (int)reader[7], (int)reader[8], (int)reader[9]);
+			  SQLPlayers m = new SQLPlayers((int)reader[10], (int)reader[11], (string)reader[12], (int)reader[13], (int)reader[14], (int)reader[15], (int)reader[16], (int)reader[17], (string)reader[18], (int)reader[19], (int)reader[20], (int)reader[21], (int)reader[22]); 
+			}
+			//close Data Reader
+			reader.Close();
+			//return list to be displayed
+		}
+
+		public int CountColumns(string table)		
+		{
+			string sqltable = table;
+			string query = String.Format("SELECT Count(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE table_schema ='{0}'AND table_name = '{1}'", sqltable, DatabaseName);
+    		int Count = -1;
+        	MySqlCommand cmd = new MySqlCommand(query, connection);
+       		Count = int.Parse(cmd.ExecuteScalar() + "");
+        	return Count;
+		}
+
+>>>>>>> origin/master
 		public void SaveXMLConfig()
 		{
 			try
@@ -513,6 +662,7 @@ namespace SqlPlugin
 				TextWriter textWriter = new StreamWriter(m_dataFile);
 				Serializer.Serialize(textWriter, Config);
 				textWriter.Close();
+<<<<<<< HEAD
 
 				Console.WriteLine("SQL Plugin - Saved Data");
 			}
@@ -533,6 +683,28 @@ namespace SqlPlugin
 			return Convert.ToBase64String(encryptedData);
 		}
 
+=======
+
+				Console.WriteLine("SQL Plugin - Saved Data");
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("SQL Plugin - Exception - Message (check log for details): " + ex.Message);
+				LogManager.GameLog.WriteLine("SQL Plugin - Exception: " + ex.ToString() + "\n<<<<<END SQL EXCEPTION>>>>>\n\n");
+			}
+		}
+
+		#region "Security"
+
+		public static string EncryptString(SecureString input)
+		{
+			byte[] encryptedData = ProtectedData.Protect(
+				Encoding.Unicode.GetBytes(ToInsecureString(input)),entropy,
+				DataProtectionScope.CurrentUser);
+			return Convert.ToBase64String(encryptedData);
+		}
+
+>>>>>>> origin/master
 		public static SecureString DecryptString(string encryptedData)
 		{
 			try
